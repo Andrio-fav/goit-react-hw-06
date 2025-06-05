@@ -1,24 +1,19 @@
-import { useDispatch, useSelector } from 'react-redux';
-import styles from './SearchBox.module.css';
+import { useDispatch } from 'react-redux';
+import { useDebouncedCallback } from 'use-debounce';
 import { changeFilter } from '../../redux/filtersSlice';
+import css from './SearchBox.module.css';
 
 export default function SearchBox() {
-  const filter = useSelector((state) => state.filters.name);
   const dispatch = useDispatch();
 
-  function handleFilter(name) {
-    dispatch(changeFilter(name));
-  }
+  const handleChange = useDebouncedCallback((e) => {
+    dispatch(changeFilter(e.target.value));
+  }, 300);
 
   return (
-    <div className={styles.searchBox}>
-      <label htmlFor="searchField">Find contacts by name</label>
-      <input
-        type="text"
-        name="searchField"
-        value={filter}
-        onChange={(evt) => handleFilter(evt.target.value.toLowerCase())}
-      />
+    <div>
+      <p>Find contacts by name</p>
+      <input className={css.field} type="text" name="search" onChange={handleChange}></input>
     </div>
   );
 }
