@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+export const selectContacts = state => state.contacts.items;
 
 const Slice = createSlice({
   name: "contacts",
